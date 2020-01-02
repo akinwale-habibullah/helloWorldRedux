@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './Rsvp.css';
 
 const Rsvp = ({ handleSubmit, history }) => {
@@ -54,9 +55,19 @@ const Rsvp = ({ handleSubmit, history }) => {
     </>
   );
 };
+
 Rsvp.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-}
+};
+
 const RsvpRoute = withRouter(Rsvp);
 
-export default RsvpRoute;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleSubmit: (rsvpObj) => {
+      dispatch({ type: 'RSVP', payload: rsvpObj})
+    }
+  }
+};
+
+export default connect(() => { return {}}, mapDispatchToProps)(RsvpRoute);
