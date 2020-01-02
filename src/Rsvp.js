@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import './Rsvp.css';
 
-const Rsvp = ({ handleSubmit }) => {
+const Rsvp = ({ handleSubmit, history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
@@ -13,6 +14,14 @@ const Rsvp = ({ handleSubmit }) => {
 
   const onChangeFormInput = (e) => {
     formInputUpdateMap[e.target.name](e.target.value);
+  };
+  const onFormSubmit= (e) => {
+    e.preventDefault();
+    handleSubmit({
+      name,
+      email
+    });
+    history.push('/rsvp_list');
   };
 
   return (
@@ -29,7 +38,7 @@ const Rsvp = ({ handleSubmit }) => {
         Looking forward to seeing you. Thank you :-)
       </p>
 
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={onFormSubmit}>
         <div className="formInputGroup">
           <label htmlFor="name">Name: </label>
           <input type="text" name="name" value={name} onChange={onChangeFormInput} />
@@ -48,5 +57,6 @@ const Rsvp = ({ handleSubmit }) => {
 Rsvp.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 }
+const RsvpRoute = withRouter(Rsvp);
 
-export default Rsvp;
+export default RsvpRoute;
